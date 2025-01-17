@@ -1,0 +1,21 @@
+# macOS specific
+.DS_Store
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+venv/
+
+# Environment files
+*.env
+.env
+
+# Logs
+*.log
+
+# Other temporary files
+*.swp
+*.swo
