@@ -10,7 +10,7 @@ import config
 from database.utils import get_user_chats
 from database.website import (
     create_session,
-    get_session,
+    get_user_session,
     delete_session,
     cleanup_expired_sessions,
 )
@@ -43,7 +43,7 @@ async def verify_telegram_auth(data, bot_token):
 async def index():
     session_id = request.cookies.get("session_id")
     if session_id:
-        session = await get_session(session_id)
+        session = await get_user_session(session_id)
         if session and session.expires_at.replace(tzinfo=timezone.utc) > datetime.now(timezone.utc):
             return redirect("/dashboard")
 
@@ -86,7 +86,7 @@ async def dashboard():
     if not session_id:
         return redirect("/")
 
-    session = await get_session(session_id)
+    session = await get_user_session(session_id)
     if not session:
         return redirect("/")
 
@@ -117,7 +117,7 @@ async def chat_settings(chat_id):
     if not session_id:
         return redirect("/")
 
-    session = await get_session(session_id)
+    session = await get_user_session(session_id)
     if not session:
         return redirect("/")
 

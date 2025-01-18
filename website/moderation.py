@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from database.website import get_session
+from database.website import get_user_session
 from database.moderation import (
     get_moderation_settings,
     save_moderation_settings
@@ -23,7 +23,7 @@ async def moderation_settings(chat_id):
     if not session_id:
         return redirect("/")
 
-    session = await get_session(session_id)
+    session = await get_user_session(session_id)
     if not session or session.expires_at.replace(tzinfo=timezone.utc) < \
             datetime.now(timezone.utc):
         return redirect("/")

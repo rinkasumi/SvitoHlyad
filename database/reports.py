@@ -15,7 +15,7 @@ async def get_report_settings(chat_id: int):
                 "report_text_template": report.report_text_template,
             }
         return {
-            "enable_reports": False,
+            "enable_reports": True,
             "delete_reported_messages": False,
             "report_text_template": "",
         }

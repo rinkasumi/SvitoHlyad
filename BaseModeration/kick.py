@@ -2,6 +2,7 @@ from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message
 
+from BaseModeration.BaseModerationHelpers import format_ban_text
 from database.moderation import get_moderation_settings
 from database.utils import get_user_by_id_or_username
 from middlefilters.HasPromoteRights import HasPromoteRights
@@ -60,10 +61,12 @@ async def kick(msg: Message):
         await msg.bot.ban_chat_member(chat_id=chat_id, user_id=user_id)
         await msg.bot.unban_chat_member(chat_id=chat_id, user_id=user_id)
 
-        response = kick_settings["text"].replace(
-            "%%__mention__%%", f"<a href='tg://user?id={user_id}'>{first_name}</a>"
-        ).replace(
-            "%%__reason__%%", reason
+        response = format_ban_text(
+            template=kick_settings["text"],
+            user_id=user_id,
+            first_name=first_name,
+            duration="",
+            reason=reason
         )
 
         await msg.reply(response, parse_mode="HTML")

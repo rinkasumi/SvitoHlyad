@@ -33,9 +33,6 @@ async def report(message: types.Message):
 
     report_settings = await get_report_settings(chat_id=chat_id)
     if not report_settings.get("enable_reports", False):
-        await message.reply(
-            "Жалобы в этом чате отключены. Администратор может включить их через панель управления."
-        )
         return
 
     report_message = message.reply_to_message

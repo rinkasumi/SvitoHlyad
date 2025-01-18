@@ -1,8 +1,8 @@
 from quart import Blueprint, request, redirect, render_template
 from datetime import datetime, timezone
 
-from database.utils import get_block_channels_settings, save_block_channels_settings
-from database.website import get_session
+from database.blockChannels import get_block_channels_settings, save_block_channels_settings
+from database.website import get_user_session
 
 
 block_channels_bp = Blueprint("block_channels", __name__)
@@ -19,7 +19,7 @@ async def block_channels_settings(chat_id):
     if not session_id:
         return redirect("/")
 
-    session = await get_session(session_id)
+    session = await get_user_session(session_id)
     if not session or session.expires_at.replace(tzinfo=timezone.utc) < \
             datetime.now(timezone.utc):
         return redirect("/")

@@ -126,3 +126,19 @@ async def has_promote_rights(message) -> bool:
                 return True
 
     return False
+
+
+def format_ban_text(
+    template: str,
+    user_id: Optional[int] = None,
+    first_name: Optional[str] = "пользователь",
+    duration: Optional[str] = "",
+    reason: Optional[str] = "Без причины",
+    chat_title: Optional[str] = "",
+) -> str:
+    mention = f"<a href='tg://user?id={user_id}'>{first_name}</a>" if user_id else first_name
+    return template.replace("%%__mention__%%", mention).replace(
+        "%%__duration__%%", duration
+    ).replace(
+        "%%__reason__%%", reason
+    )

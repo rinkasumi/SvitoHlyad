@@ -5,6 +5,7 @@ from aiogram.types import Message, ChatPermissions, CallbackQuery
 from database.moderation import get_moderation_settings
 from database.utils import get_user_by_id_or_username
 from BaseModeration.BaseModerationHelpers import (
+    format_ban_text,
     parse_time,
     parse_mute_command,
     format_duration,
@@ -62,12 +63,12 @@ async def mute(msg: Message):
         if mute_settings["delete_message"] and msg.reply_to_message:
             await msg.reply_to_message.delete()
 
-        response = mute_settings["text"].replace(
-            "%%__mention__%%", first_name
-        ).replace(
-            "%%__duration__%%", formatted_duration
-        ).replace(
-            "%%__reason__%%", result['reason']
+        response = format_ban_text(
+            template=mute_settings["text"],
+            user_id=user_id,
+            first_name=first_name,
+            duration=formatted_duration,
+            reason=result['reason']
         )
 
         await msg.bot.restrict_chat_member(

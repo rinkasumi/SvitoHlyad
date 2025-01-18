@@ -2,7 +2,7 @@ from aiogram import F, Router
 from aiogram.filters import Command
 from aiogram.types import Message
 
-from BaseModeration.BaseModerationHelpers import parse_mute_command, parse_time
+from BaseModeration.BaseModerationHelpers import format_ban_text, parse_mute_command, parse_time
 from database.moderation import get_moderation_settings
 from database.utils import get_user_by_id_or_username
 from middlefilters.HasPromoteRights import HasPromoteRights
@@ -52,12 +52,12 @@ async def ban(msg: Message):
         if ban_settings["delete_message"] and msg.reply_to_message:
             await msg.reply_to_message.delete()
 
-        text = ban_settings["text"].replace(
-            "%%__mention__%%", f"<a href='tg://user?id={user_id}'>{first_name}</a>"
-        ).replace(
-            "%%__duration__%%", result['duration']
-        ).replace(
-            "%%__reason__%%", result['reason']
+        text = format_ban_text(
+            template=ban_settings["text"],
+            user_id=user_id,
+            first_name=first_name,
+            duration=result['duration'],
+            reason=result['reason']
         )
 
         await msg.bot.ban_chat_member(
