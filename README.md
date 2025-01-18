@@ -102,7 +102,7 @@ To deploy the bot, you need to set up a PostgreSQL database. Follow these steps:
     # Exit the PostgreSQL shell:
     \q
 
-4. **psql -h localhost -U waffle -d waffledb**
+4. **Check conetction:**
     ```bash
     psql -h localhost -U waffle -d waffledb
 
